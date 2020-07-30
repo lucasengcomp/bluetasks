@@ -1,7 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
 
-function App() {
-  return <div className="App"></div>;
+class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <h1>Bluetasks</h1>
+      </div>
+    );
+  }
 }
 
 export default App;
