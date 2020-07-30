@@ -1,17 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
+import Navbar from "./components/NavBar";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <h1>Bluetasks</h1>
-      </div>
-    );
-  }
+function App() {
+  return (
+    <div className="App">
+      <Navbar></Navbar>
+    </div>
+  );
 }
 
 export default App;
