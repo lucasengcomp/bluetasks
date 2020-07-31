@@ -8,8 +8,8 @@ class Navbar extends Component {
 
     this.state = {
       items: [
-        { name: "Item 1", href: "/" }
-        { name: "Item 2", href: "/" }
+        { name: "Item 1", href: "/" },
+        { name: "Item 2", href: "/" },
         { name: "Item 3", href: "/" }
       ]
     }
@@ -18,7 +18,7 @@ class Navbar extends Component {
   render() {
     return (
       <div>
-        { this.state.items.map((i) => <NavBarItem name="{i.name}" /> )}
+        { this.state.items.map(i => <NavBarItem name={i.name} /> )}
       </div>
     );
   }
