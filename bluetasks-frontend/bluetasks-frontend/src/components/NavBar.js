@@ -2,12 +2,23 @@ import React, { Component } from "react";
 import NavBarItem from "./NavBarItem";
 
 class Navbar extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      items: [
+        { name: "Item 1", href: "/" }
+        { name: "Item 2", href: "/" }
+        { name: "Item 3", href: "/" }
+      ]
+    }
+  }
+
   render() {
     return (
       <div>
-        <NavBarItem name="Item 1" />
-        <NavBarItem name="Item 2" />
-        <NavBarItem name="Item 3" />
+        { this.state.items.map((i) => <NavBarItem name="{i.name}" /> )}
       </div>
     );
   }
