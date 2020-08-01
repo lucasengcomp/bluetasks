@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class NavBarItem extends Component {
   render() {
     return (
       <div>
-        <h3>{this.props.name}</h3>
+        <Link to={this.props.href} onClick={e => alert("clicou aquiii")}>
+          {this.props.name}
+        </Link>
       </div>
     );
   }

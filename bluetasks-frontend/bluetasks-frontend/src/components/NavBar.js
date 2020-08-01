@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import NavBarItem from "./NavBarItem";
 
 class Navbar extends Component {
-
   constructor(props) {
     super(props);
 
@@ -10,15 +9,17 @@ class Navbar extends Component {
       items: [
         { name: "Item 1", href: "/" },
         { name: "Item 2", href: "/" },
-        { name: "Item 3", href: "/" }
-      ]
-    }
+        { name: "Item 3", href: "/" },
+      ],
+    };
   }
 
   render() {
     return (
       <div>
-        { this.state.items.map(i => <NavBarItem name={i.name} /> )}
+        {this.state.items.map((i) => (
+          <NavBarItem name={i.name} href={i.href} />
+        ))}
       </div>
     );
   }
