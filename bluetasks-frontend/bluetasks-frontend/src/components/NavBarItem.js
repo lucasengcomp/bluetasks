@@ -5,8 +5,12 @@ class NavBarItem extends Component {
   render() {
     return (
       <div>
-        <Link to={this.props.href} onClick={e => alert("clicou aquiii")}>
-          {this.props.name}
+        <Link
+          className="nav-item nav-link active"
+          to={this.props.item.href}
+          onClick={(e) => this.props.onClick(this.props.item)}
+        >
+          {this.props.item.name}
         </Link>
       </div>
     );

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import NavBarItem from "./NavBarItem";
+import { APP_NAME } from "../constants";
 
 class Navbar extends Component {
   constructor(props) {
@@ -7,20 +8,41 @@ class Navbar extends Component {
 
     this.state = {
       items: [
-        { name: "Item 1", href: "/" },
-        { name: "Item 2", href: "/" },
-        { name: "Item 3", href: "/" },
+        { name: "Listar tarefas", href: "/" },
+        { name: "Nova Tarefa", href: "/form" },
       ],
     };
   }
 
+  onClickHandler(item) {
+    alert(item.name);
+  }
+
   render() {
     return (
-      <div>
-        {this.state.items.map((i) => (
-          <NavBarItem name={i.name} href={i.href} />
-        ))}
-      </div>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="#">
+          {APP_NAME}
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarText">
+          <div className="navbar-nav mr-auto">
+            {this.state.items.map((i) => (
+              <NavBarItem item={i} onClick={this.onClickHandler} />
+            ))}
+          </div>
+        </div>
+      </nav>
     );
   }
 }
