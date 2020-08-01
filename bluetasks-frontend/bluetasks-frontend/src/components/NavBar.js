@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBarItem from "./NavBarItem";
 import { APP_NAME } from "../constants";
+import { act } from "react-dom/test-utils";
 
 class Navbar extends Component {
   constructor(props) {
@@ -8,14 +9,23 @@ class Navbar extends Component {
 
     this.state = {
       items: [
-        { name: "Listar tarefas", href: "/" },
-        { name: "Nova Tarefa", href: "/form" },
+        { name: "Listar tarefas", href: "/", active: true },
+        { name: "Nova Tarefa", href: "/form", active: false },
       ],
     };
+    this.onClickHandler = this.onClickHandler.bind(this);
   }
 
-  onClickHandler(item) {
-    alert(item.name);
+  onClickHandler(itemClicked) {
+    const items = [...this.state.items];
+    items.forEach((item) => {
+      if (item.name === itemClicked.name) {
+        item.active = true;
+      } else {
+        item.active = false;
+      }
+    });
+    this.setState({ items });
   }
 
   render() {
@@ -38,7 +48,7 @@ class Navbar extends Component {
         <div className="collapse navbar-collapse" id="navbarText">
           <div className="navbar-nav mr-auto">
             {this.state.items.map((i) => (
-              <NavBarItem item={i} onClick={this.onClickHandler} />
+              <NavBarItem key={i.name} item={i} onClick={this.onClickHandler} />
             ))}
           </div>
         </div>
