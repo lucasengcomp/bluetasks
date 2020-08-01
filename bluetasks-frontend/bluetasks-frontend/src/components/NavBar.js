@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import NavBarItem from "./NavBarItem";
 import { APP_NAME } from "../constants";
-import { act } from "react-dom/test-utils";
+
 
 class Navbar extends Component {
   constructor(props) {
