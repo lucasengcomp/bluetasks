@@ -36,7 +36,12 @@ class TaskListTable extends Component {
       <>
         <table className="table table-striped">
           <TableHeader />
-          <TableBody tasks={this.state.tasks} onDelete={this.onDeleteHandler} />
+
+          {this.state.tasks.length > 0 ? 
+            <TableBody
+              tasks={this.state.tasks}
+              onDelete={this.onDeleteHandler}
+            /> : (<EmptyTableBody /> )}
         </table>
         <ToastContainer autoClose={2000} />
       </>
@@ -79,6 +84,16 @@ const TableBody = (props) => {
           </td>
         </tr>
       ))}
+    </tbody>
+  );
+};
+
+const EmptyTableBody = (props) => {
+  return (
+    <tbody>
+      <tr>
+        <td colSpan="4">Sem tarefas cadastradas no momento.</td>
+      </tr>
     </tbody>
   );
 };
