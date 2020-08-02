@@ -8,7 +8,9 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Navbar />
-        <TaskListTable />
+        <div className="container" style={{ marginTop: 20 }}>
+          <TaskListTable />
+        </div>
       </div>
     </BrowserRouter>
   );
