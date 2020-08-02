@@ -11,6 +11,7 @@ class TaskListTable extends Component {
       tasks: [],
     };
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.onStatusChangeHandler = this.onStatusChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -31,17 +32,26 @@ class TaskListTable extends Component {
     }
   }
 
+  onStatusChangeHandler(task) {
+    this.done = !task.done;
+    TaskService.save(task);
+    this.listTasks();
+  }
+
   render() {
     return (
       <>
         <table className="table table-striped">
           <TableHeader />
-
-          {this.state.tasks.length > 0 ? 
+          {this.state.tasks.length > 0 ? (
             <TableBody
               tasks={this.state.tasks}
               onDelete={this.onDeleteHandler}
-            /> : (<EmptyTableBody /> )}
+              onStatusChange={this.onStatusChangeHandler}
+            />
+          ) : (
+            <EmptyTableBody />
+          )}
         </table>
         <ToastContainer autoClose={2000} />
       </>
@@ -68,7 +78,10 @@ const TableBody = (props) => {
       {props.tasks.map((task) => (
         <tr key={task.id}>
           <td>
-            <input type="checkbox" checked={task.done} />
+            <input
+              type="checkbox"
+              onChange={() => props.onStatusChange(task)}
+            />
           </td>
           <td>{task.description}</td>
           <td>{task.whenToDo}</td>
