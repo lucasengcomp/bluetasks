@@ -1,7 +1,8 @@
 import React from "react";
 import Navbar from "./components/NavBar";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import TaskListTable from "./components/TaskListTable";
+import TaskForm from "./components/TaskForm";
 
 function App() {
   return (
@@ -9,7 +10,11 @@ function App() {
       <div className="App">
         <Navbar />
         <div className="container" style={{ marginTop: 20 }}>
-          <TaskListTable />
+          <Switch>
+            <Route path="/form" component={TaskForm} />
+            <Route path="/" component={TaskListTable} />
+            <TaskListTable />
+          </Switch>
         </div>
       </div>
     </BrowserRouter>
