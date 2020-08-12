@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import TaskService from "../service/TaskService";
+import { Redirect } from "react-router-dom";
 
 class TaskForm extends Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class TaskForm extends Component {
         description: "",
         whenToDo: "",
       },
+      redirect: false,
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -18,14 +21,24 @@ class TaskForm extends Component {
 
   onSubmitHandler(event) {
     event.preventDefault();
-    alert("entrou aqui");
+    TaskService.save(this.state.task);
+    this.setState({ redirect: true });
   }
 
   onInputChangeHandler(event) {
-    console.log(event);
+    const field = event.target.name;
+    const value = event.target.value;
+
+    this.setState((prevState) => ({
+      task: { ...prevState.task, [field]: value },
+    }));
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div>
         <h1>Cadastro da tarefa</h1>
