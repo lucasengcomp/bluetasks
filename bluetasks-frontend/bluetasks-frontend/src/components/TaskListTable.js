@@ -12,6 +12,7 @@ class TaskListTable extends Component {
     };
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.onStatusChangeHandler = this.onStatusChangeHandler.bind(this);
+    this.onEditHandler = this.onEditHandler.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +33,10 @@ class TaskListTable extends Component {
     }
   }
 
+  onEditHandler(id) {
+    alert("editando..." + id);
+  }
+
   onStatusChangeHandler(task) {
     this.done = !task.done;
     TaskService.save(task);
@@ -47,6 +52,7 @@ class TaskListTable extends Component {
             <TableBody
               tasks={this.state.tasks}
               onDelete={this.onDeleteHandler}
+              onEdit={this.onEditHandler}
               onStatusChange={this.onStatusChangeHandler}
             />
           ) : (
@@ -86,7 +92,12 @@ const TableBody = (props) => {
           <td>{task.done ? <s>{task.description}</s> : task.description}</td>
           <td>{task.done ? <s>{task.whenToDo}</s> : task.whenToDo}</td>
           <td>
-            <input type="button" className="btn btn-primary" value="Editar" />
+            <input
+              type="button"
+              className="btn btn-primary"
+              value="Editar"
+              onClick={() => props.onEditHandler(task.id)}
+            />
             &nbsp;
             <input
               type="button"
