@@ -91,6 +91,7 @@ const TableBody = (props) => {
           <td>
             <input
               type="checkbox"
+              checked={task.done}
               onChange={() => props.onStatusChange(task)}
             />
           </td>

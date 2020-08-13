@@ -1,7 +1,7 @@
 class TaskService {
   constructor() {
     this.tasks = [
-      { id: 1, description: "Tarefa 1", whenToDo: "2020-01-10", done: false },
+      { id: 1, description: "Tarefa 1", whenToDo: "2020-01-10", done: true },
       { id: 2, description: "Tarefa 2", whenToDo: "2020-05-14", done: false },
       { id: 3, description: "Tarefa 3", whenToDo: "2020-09-16", done: false },
       { id: 4, description: "Tarefa 4", whenToDo: "2020-08-10", done: false },
@@ -28,7 +28,7 @@ class TaskService {
   }
 
   load(id) {
-    return this.tasks.filter(t => t.id === id)[0];
+    return this.tasks.filter((t) => t.id === id)[0];
   }
 }
 

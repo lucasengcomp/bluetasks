@@ -13,6 +13,7 @@ class TaskForm extends Component {
         whenToDo: "",
       },
       redirect: false,
+      buttonName: "Cadastrar",
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -23,7 +24,7 @@ class TaskForm extends Component {
     const editId = this.props.match.params.id;
     if (editId) {
       const task = TaskService.load(~~editId);
-      this.setState({ task: task });
+      this.setState({ task: task, buttonName: "Alterar" });
     }
   }
 
@@ -73,11 +74,18 @@ class TaskForm extends Component {
               onChange={this.onInputChangeHandler}
             />
           </div>
-          <button type="submit" className="btn-primary">
-            Cadastrar
+          <button 
+            type="submit"
+            className="btn-primary"
+          >
+            {this.state.buttonName}
           </button>
           &nbsp;&nbsp;
-          <button type="button" className="btn-danger">
+          <button 
+            type="button" 
+            className="btn-danger"
+            onClick={() => this.setState({redirect : true})}
+          >
             Cancelar
           </button>
         </form>
