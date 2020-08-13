@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TaskService from "../service/TaskService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Redirect } from "react-router-dom";
 
 class TaskListTable extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class TaskListTable extends Component {
 
     this.state = {
       tasks: [],
+      editId: 0,
     };
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.onStatusChangeHandler = this.onStatusChangeHandler.bind(this);
@@ -34,7 +36,7 @@ class TaskListTable extends Component {
   }
 
   onEditHandler(id) {
-    alert("editando..." + id);
+    this.setState({ editId: id });
   }
 
   onStatusChangeHandler(task) {
@@ -44,6 +46,9 @@ class TaskListTable extends Component {
   }
 
   render() {
+    if (this.state.editId > 0) {
+      return <Redirect to={`/form/${this.state.editId}`} />;
+    }
     return (
       <>
         <table className="table table-striped">
@@ -96,7 +101,7 @@ const TableBody = (props) => {
               type="button"
               className="btn btn-primary"
               value="Editar"
-              onClick={() => props.onEditHandler(task.id)}
+              onClick={() => props.onEdit(task.id)}
             />
             &nbsp;
             <input

@@ -12,6 +12,7 @@ function App() {
         <div className="container" style={{ marginTop: 20 }}>
           <Switch>
             <Route path="/form" component={TaskForm} />
+            <Route path="/form/:id" component={TaskForm} />
             <Route path="/" component={TaskListTable} />
             <TaskListTable />
           </Switch>
