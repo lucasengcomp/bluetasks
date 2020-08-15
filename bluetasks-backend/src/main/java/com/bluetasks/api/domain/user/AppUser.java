@@ -1,5 +1,6 @@
 package com.bluetasks.api.domain.user;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "app_user")
@@ -19,14 +22,17 @@ public class AppUser {
 
     @Getter
     @Setter
+    @NotEmpty(message = "O nome do usuário é obrigatório.")
     private String username;
 
     @Getter
     @Setter
+    @NotEmpty(message = "A senha é obrigatória.")
     private String password;
 
     @Getter
     @Setter
+    @NotEmpty(message = "O nome de exibição é obrigatório.")
     private String displayName;
 
     public AppUser() {
