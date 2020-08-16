@@ -1,6 +1,5 @@
 package com.bluetasks.api.domain.user;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 

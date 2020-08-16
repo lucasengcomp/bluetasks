@@ -1,10 +1,14 @@
 package com.bluetasks.api.domain.task;
 
+
 import com.bluetasks.api.domain.user.AppUser;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -17,10 +21,13 @@ public class Task {
 
     @Getter
     @Setter
+    @NotEmpty(message = "A descrição da tarefa é obrigatória")
     private String description;
 
     @Getter
     @Setter
+    @NotNull(message = "A data da tarefa é obrigatória")
+    @FutureOrPresent(message = "A data da tarefa não pode estar no passado")
     private LocalDate whenToDo;
 
     @Getter
@@ -29,6 +36,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "app_user_id")
+    @NotNull(message = "O usuário da tarefa é obrigatório")
     @Getter
     @Setter
     private AppUser appUser;
