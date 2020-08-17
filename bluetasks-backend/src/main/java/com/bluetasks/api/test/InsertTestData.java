@@ -7,6 +7,8 @@ import com.bluetasks.api.domain.user.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -26,8 +28,8 @@ public class InsertTestData {
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        //TODO: Criptografar senha
-        AppUser appUser = new AppUser("Jhon", "abc", "Jhon Coder");
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        AppUser appUser = new AppUser("Jhon", encoder.encode("abc"), "Jhon Coder");
 
         appUserRepository.save(appUser);
 
