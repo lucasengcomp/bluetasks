@@ -23,6 +23,13 @@ public class BluetasksApplication implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+        config.getCorsRegistry()
+                .addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
+
+        logger.info("Repository Cors Setup...OK");
+
         config.exposeIdsFor(Task.class);
     }
 
