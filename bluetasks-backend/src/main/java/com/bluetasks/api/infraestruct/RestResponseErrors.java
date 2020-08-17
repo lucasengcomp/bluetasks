@@ -24,5 +24,11 @@ public class RestResponseErrors {
 
         return responseErrors;
     }
+
+    public static RestResponseErrors fromMessage(String message) {
+        RestResponseErrors responseErrors = new RestResponseErrors();
+        responseErrors.error = message;
+        return responseErrors;
+    }
 }
 
