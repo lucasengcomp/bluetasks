@@ -1,21 +1,25 @@
 package com.bluetasks.api.infraestruct.security;
 
 import com.bluetasks.api.domain.user.AppUser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.io.IOException;
+import java.util.Date;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Date;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -33,8 +37,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             ObjectMapper mapper = new ObjectMapper();
             AppUser appUser = mapper.readValue(request.getInputStream(), AppUser.class);
 
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(appUser.getUsername(), appUser.getPassword());
-            return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+            UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(appUser.getUsername(), appUser.getPassword());
+            return authenticationManager.authenticate(upat);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -42,25 +46,18 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain chain,
-            Authentication authResult)
-            throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+                                            Authentication authResult) throws IOException, ServletException {
 
-        UserDetailImpl userDetail = (UserDetailImpl) authResult.getPrincipal(); //retorna o tipo de dado do userDetailService
+        UserDetailImpl userDetails = (UserDetailImpl) authResult.getPrincipal();
 
-         String jwtToken = Jwts.builder()
-                .setSubject(userDetail.getUsername())
-                .setExpiration( new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME ))
-                .claim("displayName", userDetail.getDisplayName())
+        String jwtToken = Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+                .claim("displayName", userDetails.getDisplayName())
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET_KEY)
                 .compact();
 
         response.addHeader(SecurityConstants.AUTHORIZATION_HEADER, SecurityConstants.TOKEN_PREFIX + jwtToken);
-
-
     }
-
 }

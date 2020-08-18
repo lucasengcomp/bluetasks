@@ -1,6 +1,11 @@
 package com.bluetasks.api.infraestruct.security;
 
-import io.jsonwebtoken.Jwts;
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,11 +13,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import io.jsonwebtoken.Jwts;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -20,18 +21,21 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
     }
 
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
 
-            String token = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
-            if (token != null && token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-                UsernamePasswordAuthenticationToken authenticationToken = getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }
-            chain.doFilter(request, response);
+        String token = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
+
+        if (token != null && token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+            UsernamePasswordAuthenticationToken authentication = getAuthentcation(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        chain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(String token) {
+    private UsernamePasswordAuthenticationToken getAuthentcation(String token) {
         String username = Jwts.parser().setSigningKey(SecurityConstants.SECRET_KEY)
                 .parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
                 .getBody().getSubject();

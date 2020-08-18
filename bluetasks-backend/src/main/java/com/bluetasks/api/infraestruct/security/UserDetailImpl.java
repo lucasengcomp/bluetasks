@@ -1,22 +1,24 @@
 package com.bluetasks.api.infraestruct.security;
 
+
+import java.util.Collection;
+
 import com.bluetasks.api.domain.user.AppUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-
+@SuppressWarnings("serial")
 public class UserDetailImpl implements UserDetails {
 
-    private String userName;
+    private String username;
     private String password;
     private String displayName;
 
     public UserDetailImpl(AppUser appUser) {
-        this.userName = appUser.getUsername();
+        this.username = appUser.getUsername();
         this.password = appUser.getPassword();
-        this.password = appUser.getDisplayName();
+        this.displayName = appUser.getDisplayName();
     }
 
     @Override
@@ -31,7 +33,7 @@ public class UserDetailImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override
@@ -49,13 +51,13 @@ public class UserDetailImpl implements UserDetails {
         return true;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public String getDisplayName() {
-        return displayName;
     }
 
 }
