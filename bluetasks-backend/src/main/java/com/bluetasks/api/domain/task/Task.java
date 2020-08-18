@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@EntityListeners(TaskListener.class)
 @Entity
 public class Task {
 
