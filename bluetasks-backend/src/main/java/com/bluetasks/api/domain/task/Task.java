@@ -2,6 +2,7 @@ package com.bluetasks.api.domain.task;
 
 
 import com.bluetasks.api.domain.user.AppUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +39,7 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "app_user_id")
     @NotNull(message = "O usuário da tarefa é obrigatório")
+    @JsonIgnore
     @Getter
     @Setter
     private AppUser appUser;
