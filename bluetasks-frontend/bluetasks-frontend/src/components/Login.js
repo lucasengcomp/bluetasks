@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "../service/AuthService";
 import Alert from "./Alert";
+import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -10,15 +11,21 @@ class Login extends Component {
       password: "",
       alert: null,
       processing: false,
+      loggedIn: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChanged = this.handleInputChanged.bind(this);
+    this.handleLoginResponse = this.handleLoginResponse.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    AuthService.login(this.state.username, this.state.password);
+    AuthService.login(
+      this.state.username,
+      this.state.password,
+      this.handleLoginResponse,
+    );
     this.setState({ alert: "Tentativa de login" });
   }
 
@@ -28,7 +35,19 @@ class Login extends Component {
     this.setState({ [field]: value });
   }
 
+  handleLoginResponse(sucess) {
+    if (sucess) {
+      this.setState({ loggedIn: true });
+    } else {
+      this.setState({ alert: "O login não pôde ser realizado!" });
+    }
+    this.setState({ processing: false });
+  }
+
   render() {
+    if (this.state.loggedIn) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         <h1>Login</h1>
